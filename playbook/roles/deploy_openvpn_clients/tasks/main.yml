@@ -1,0 +1,35 @@
+  - name: deploy openvpn clients
+    ansible.builtin.apt: # имя модуля Ansible
+      name: openvpn
+      state: present
+      update_cache: yes
+    become: yes
+  - name: copy config
+    template:
+      src: /etc/ansible/playbook/roles/deploy_openvpn_clients/files/{{ ansible_hostname }}.conf
+      dest: /etc/openvpn/{{ ansible_hostname }}.conf
+      mode: 0644
+    become: yes
+  - name: copy ca.crt
+    template:
+      src: /etc/ansible/playbook/roles/deploy_openvpn_clients/files/ca.crt
+      dest: /etc/openvpn/ca.crt
+      mode: 0644
+    become: yes
+  - name: copy server.crt
+    template:
+      src: /etc/ansible/playbook/roles/deploy_openvpn_clients/files/{{ ansible_hostname }}.crt
+      dest: /etc/openvpn/{{ ansible_hostname }}.crt
+      mode: 0644
+    become: yes
+  - name: copy server.key
+    template:
+      src: /etc/ansible/playbook/roles/deploy_openvpn_clients/files/{{ ansible_hostname }}.key
+      dest: /etc/openvpn/{{ ansible_hostname }}.key
+      mode: 0644
+    become: yes
+  - name: openvpn systemd
+    systemd:
+      name: openvpn@{{ ansible_hostname }}
+      enabled: yes
+      state: started

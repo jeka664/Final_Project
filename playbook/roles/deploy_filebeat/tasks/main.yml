@@ -1,0 +1,21 @@
+  - name: copy filebeat_package
+    template:
+      src: /etc/ansible/playbook/roles/deploy_filebeat/files/filebeat-8.1.3-amd64.deb
+      dest: /home/jeka664/
+      mode: 0644
+    become: yes
+  - name: deploy filebeat
+    ansible.builtin.apt:
+      deb: /home/jeka664/filebeat-8.1.3-amd64.deb
+    become: yes
+  - name: copy config
+    template:
+      src: /etc/ansible/playbook/roles/deploy_filebeat/files/filebeat.yml
+      dest: /etc/filebeat/filebeat.yml
+      mode: 0644
+    become: yes
+  - name: filebeat systemd
+    systemd:
+      name: filebeat
+      enabled: yes
+      state: started

@@ -1,0 +1,5 @@
+- name: "deploy zabbix agent"
+  hosts: zabbix_agents
+  become: true
+  roles:
+    - role: "deploy_zabbix_agent"

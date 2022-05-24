@@ -1,0 +1,5 @@
+- name: "deploy openvpn clients"
+  hosts: openvpn_clients
+  become: true
+  roles:
+    - role: "deploy_openvpn_clients"

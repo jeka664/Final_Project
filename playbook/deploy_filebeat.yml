@@ -1,0 +1,5 @@
+- name: "deploy filebeat"
+  hosts: filebeat_test
+  become: true
+  roles:
+    - role: "deploy_filebeat"
